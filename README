@@ -1,0 +1,142 @@
+=== About ===
+
+This is an implementation of unAPI for OCLC PICA integrated library
+systems (LBS).
+
+unAPI is a tiny RESTful HTTP-API for the few basic operations necessary
+to copy discrete, identified content from any kind of web application.
+See <http://unapi.info/> for more information.
+
+=== Copyright ===
+
+Copyright 2008 2009 Goetz Hatop <hatop@ub.uni-marburg.de>. Goetz Hatop's
+original version can be found at
+<ftp://ftp.ub.uni-marburg.de/pub/research/unapi.tar.gz>.
+
+Copyright 2009 2010 Stephan Rosenke <rosenke@ulb.tu-darmstadt.de> or
+<r01-551@r0s.de>. See also <http://r0s.de/unapi>.
+
+=== License ===
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=== Installation ===
+
+PHP 5.2.0 with curl module is recommended, for unClient.php PHP 5 is
+required.
+If you want use the scripts with lower versions of PHP please check
+the source for the string "comment out if using PHP4".
+
+Edit unAPI.inc.php and set the user-defineable variables. Put the
+script together with unAPI.php on a web server. Your records
+identified by PPN (PICA Production Number) will then be available via
+unAPI, for example: <http://example.com/unAPI.php?id=123&format=xml>
+
+Try out unClient.php to see an example on how to fetch data delivered
+by the unAPI.php server script.
+The unClient.php requires the unAPI.inc.php to be included, too.
+Copy them to a place on your web server where this can be accomplished.
+This need not to be the same server where your unAPI.php script lives.
+
+unAPI.html is a simple form to submit PPNs and format to unAPI.php.
+Copy it to the same directory as unAPI.php.
+
+For Bibsonomy.php and Coins.php see below.
+
+=== What is PICA LBS ===
+
+OCLC PICA distributes an integrated library system (ILS) named LBS
+which presents its data for human beings in a search interface called
+PSI. For automata, the bibliographic records are not really hidden
+but not available in a useful or standardized format.
+
+=== About this software  ===
+
+The PHP scripts utilise the so-called XML web interface which usually
+comes with the LBS software to make bibliographic records available
+via an unAPI. It formats them as dublin core, in a XML format, BibTeX,
+JSON or some other formats (for a complete list, query the unAPI
+without id- and format-parameter). MARC is missed from the list of
+available formats but could be added if someone can figure out how
+to map PICA categories to MARC records.
+
+The PICA records are retrieved as categories, and all the art of
+converting them to something like Dublin Core comes down to figure
+out the meaning of the categories.
+
+Internally, PICA+ categories and subfields of the record can be
+accessed via a multi-dimensional hash (see functions getArray() and
+getArrayNice() in unAPI.inc.php).
+Mappings in getArrayNice(), getDublinCore() et al. follow HeBIS
+cataloguing rules and must possibly be adapted.
+
+The program unAPI.php uses PHP curl - if available - to contact an OPAC
+server and retrieve a bibliographic record identified by a PPN, which
+is the basic identifier in the PICA world.
+Which OPAC server to contact can be specified in the file unAPI.inc.php
+by setting $opac_url.
+
+To interpret the bibliographic data the class PicaRecord is used which
+can be found in unAPI.inc.php. Adaptions to local cataloguing rules
+should be made in this class.
+
+Getting bibliographic records via a clean web interface is a necessary,
+basic step for further processing the data for web based bibliographies
+or application to enrich the records further.
+For an example see <http://www.gbv.de/wikis/cls/Unapi>, especially
+<http://www.gbv.de/wikis/cls/Unapi#Anwendungen> (only available in
+german).
+
+=== Format csv ===
+
+Following data can be found in the columns:
+1.  PPN
+2.  Author
+3.  Editor
+4.  Title
+5.  Publisher's Address/Place
+6.  Year
+7.  ISBN 10
+8.  ISBN 13
+9.  ISSN
+10. Deutsche Nationalbibliothek number
+11. OCLC number
+12. foreign data identification number
+13. Zentrale Zeitschriften Datenbank ID
+14. Class in Regensburger Verbundsklassifikation
+
+=== Bibsonomy.php and Coins.php ===
+
+Bibsonomy.php and Coins.php are two example scripts for using unAPI.
+
+For information about Bibsonomy, see <http://en.wikipedia.org/wiki/BibSonomy>.
+Bibsonomy uses unAPI classes and functions to redirect an client to
+Bibsonomy supplying bibliographic data which is identified by a PPN.
+In the OPAC web interface, only a link with the respective PPN must be
+included.
+For example '<a href="http://example.com/Bibsonomy.php?id=123">Bibsonomy</a>'.
+
+For information about COinS, see <http://ocoins.info/>.
+Coins.php uses JavaScript inclusion mechanisms to enrich an OPAC page with
+COinS - only some JavaScript with the respective PPN is necessary.
+For example '<script src="http://example.com/Coins.php?id=123" 
+type="text/javascript" language="JavaScript"></script>'.
+
+=== version of this document===
+
+20100219: Added information about format csv.
+20100208: Added information for unAPI.html.
+20100127: Added link in copyright.
+20100126: Added explanation for PPN, some small corrections.
+20100113: Restructured document.
+
