@@ -251,7 +251,7 @@ function toggle(src, targetId) {
    <tr><td title="DC:publisher">Verleger:</td>
        <td><?=$prec->publisher ?></td></tr>
    <tr><td title="DC:related">Link</td>
-       <td><a href="<?=$prec->related ?>"><?=$prec->related ?></td></tr>
+       <td><a href="<?=$prec->related ?>"><?=$prec->related ?></a></td></tr>
    <!--
    <tr><td title="DC:rights">Rechte:</td><td><?=$prec->rights ?></td></tr>
    -->
